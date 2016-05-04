@@ -1,15 +1,19 @@
-var fs = require('fs');
-var user = require(__dirname +'/../models/users');
 var data = require(__dirname +'/../package.json');
-
+var User = require(__dirname +'/../models/user.js');
 
 exports.main = function(req, res){
     res.render('index',{ title: 'Main page'});
 }
 
-exports.usertest = function(req, res){
-   user.find(function(err, User){
-       res.send(User);
+exports.new = function(req, res){
+    console.log('Check it out: ' + JSON.stringify(req.body));
+   var UserAdd = new User({
+        _id : req.body.email,
+        name : req.body.name,
+        age : req.body.age,
+    }).save(function(err){
+       if(err)res.send(err);
+        res.send('Sucessfully added');
    });
 }
 
